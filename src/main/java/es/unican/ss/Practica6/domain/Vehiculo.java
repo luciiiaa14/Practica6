@@ -5,9 +5,13 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 @SuppressWarnings({ "serial" })
 public class Vehiculo implements Serializable{
+	@Id
 	@JsonProperty("matricula")
 	private String matricula;
 	@JsonProperty("cv")

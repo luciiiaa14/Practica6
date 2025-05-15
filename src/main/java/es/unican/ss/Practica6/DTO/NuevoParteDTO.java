@@ -2,17 +2,16 @@ package es.unican.ss.Practica6.DTO;
 
 import java.time.LocalDate;
 
-import es.unican.ss.Practica6.domain.Seguro;
 
 public class NuevoParteDTO {
 	String dni;
-	Seguro seguro;
+	Long  idSeguro;
 	double importe;
 	LocalDate fecha;
-	public NuevoParteDTO(String dni, Seguro seguro, double importe, LocalDate fecha) {
+	public NuevoParteDTO(String dni, Long seguro, double importe, LocalDate fecha) {
 		super();
 		this.dni = dni;
-		this.seguro = seguro;
+		this.idSeguro = seguro;
 		this.importe = importe;
 		this.fecha = fecha;
 	}
@@ -22,11 +21,11 @@ public class NuevoParteDTO {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	public Seguro getSeguro() {
-		return seguro;
+	public Long getIdSeguro() {
+		return idSeguro;
 	}
-	public void setSeguro(Seguro seguro) {
-		this.seguro = seguro;
+	public void setIdSeguro(Long seguro) {
+		this.idSeguro = seguro;
 	}
 	public double getImporte() {
 		return importe;

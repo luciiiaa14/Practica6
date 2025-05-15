@@ -15,11 +15,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import es.unican.ss.Practica6.seralizacion.CustomLocalDateDeserializer;
 import es.unican.ss.Practica6.seralizacion.CustomLocalDateSerializer;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
+@Entity
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, 
 				include= JsonTypeInfo.As.PROPERTY,
 				property = "type")
@@ -37,22 +44,25 @@ public abstract class Seguro implements Serializable {
 	
 	public static final double AUMENTO_PROFESIONAL = 100.0;
 	public static final double MULTIPLICADOR_POTENCIA = 1.5;
+	@Id
 	@JsonProperty("id")
-	private String id;
+	@GeneratedValue
+	private Long id;
 	@JsonProperty("fecha")
 	@JsonSerialize(using=CustomLocalDateSerializer.class)
 	@JsonDeserialize(using=CustomLocalDateDeserializer.class)
 	private LocalDate fechaInicio;
-
+	@OneToOne(cascade = CascadeType.ALL)
 	@JsonProperty("vehiculo")
+	@JoinColumn(name = "vehiculo_matricula")
 	private Vehiculo vehiculo;
-	@JsonIgnore
+	@JsonProperty("precioBase")
 	private double precioBase;
-	
+
 	public Seguro(){
 	}
 	
-	public Seguro(String id, LocalDate fechaInicio, Vehiculo vehiculo, double precioBase) {
+	public Seguro(Long id, LocalDate fechaInicio, Vehiculo vehiculo, double precioBase) {
 		this.id = id;
 		this.fechaInicio = fechaInicio;
 		this.vehiculo = vehiculo;
@@ -63,7 +73,7 @@ public abstract class Seguro implements Serializable {
 		this.precioBase = precioBase;
 	}
 	
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -79,7 +89,7 @@ public abstract class Seguro implements Serializable {
 		return precioBase;
 	}
 	
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

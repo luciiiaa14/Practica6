@@ -2,6 +2,7 @@ package es.unican.ss.Practica6.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -35,11 +36,11 @@ public class AseguradoraService implements IAseguradoraService {
 	}
 	
 	public Cliente clientePorDNI (String dni) {
-		return clienteRepository.findByDNI(dni);
+		return clienteRepository.findByDni(dni);
 	}
 	
 	public  Cliente creaCliente(Cliente c) {
-		if (clienteRepository.findByDNI(c.getDni()) != null) {
+		if (clienteRepository.findByDni(c.getDni()) != null) {
 			return null;
 		}
 		return clienteRepository.save(c);
@@ -47,7 +48,7 @@ public class AseguradoraService implements IAseguradoraService {
 	
 	
 	public Double obtenerImporteCliente(String dni) {
-		Cliente c = clienteRepository.findByDNI(dni);
+		Cliente c = clienteRepository.findByDni(dni);
 		if (c == null) {
 			return null;
 		}
@@ -58,7 +59,7 @@ public class AseguradoraService implements IAseguradoraService {
 
 	
 	public Seguro crearSeguroCliente (String dni, String tipoSeguro, LocalDate fechaInicio, Vehiculo vehiculo, double precio) {
-		Cliente c = clienteRepository.findByDNI(dni);
+		Cliente c = clienteRepository.findByDni(dni);
 		if (c == null) {
 			return null;
 		}
@@ -87,15 +88,16 @@ public class AseguradoraService implements IAseguradoraService {
 		
 	}
 	
-	public Parte crearParteCliente (String dni, Seguro seguro, double importe, LocalDate fecha) {
-		Cliente c = clienteRepository.findByDNI(dni);
+	public Parte crearParteCliente (String dni, Long idSeguro, double importe, LocalDate fecha) {
+		Cliente c = clienteRepository.findByDni(dni);
 		if (c == null) {
 			return null;
 		}
-		Seguro seguroCliente = seguroRepository.findBySeguro(seguro);
-		if (seguroCliente == null) {
-			return null;
+		Optional<Seguro> seguroClienteOpt = seguroRepository.findById(idSeguro);
+		if (seguroClienteOpt.isEmpty()) {
+		    return null;
 		}
+		Seguro seguroCliente = seguroClienteOpt.get();
 		if (!c.getSeguros().contains(seguroCliente)) {
 			return null;
 		}

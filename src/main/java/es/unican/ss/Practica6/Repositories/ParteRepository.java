@@ -6,7 +6,7 @@ import es.unican.ss.Practica6.domain.Parte;
 
 public interface ParteRepository extends JpaRepository<Parte, Long> {
 
-	public Parte findByParte(Parte parte);
+	public Parte findByIdParte(Long idParte);
 
 }
 

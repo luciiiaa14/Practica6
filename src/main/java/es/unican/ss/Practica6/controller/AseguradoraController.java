@@ -21,7 +21,7 @@ import es.unican.ss.Practica6.domain.Seguro;
 import es.unican.ss.Practica6.service.IAseguradoraService;
 
 @RestController
-@RequestMapping("/aseguradora")
+@RequestMapping("/aseguradora/clientes")
 public class AseguradoraController {
 	private IAseguradoraService aseguradoraService;
 	
@@ -30,14 +30,14 @@ public class AseguradoraController {
 	}
 	
 	//Obtención de todos los clientes.
-	@GetMapping("/clientes")
+	@GetMapping
 	public ResponseEntity<List<Cliente>> getClientes() {
 		List<Cliente> clientes  = aseguradoraService.clientes();
 		return ResponseEntity.ok(clientes);
 	}
 	
 	//Obtener un cliente.
-	@GetMapping("/clientes/{dni}")
+	@GetMapping("/{dni}")
 	public ResponseEntity<Cliente> getCliente(@PathVariable String dni) {
 		Cliente c = aseguradoraService.clientePorDNI(dni);
 		if (c != null) {
@@ -47,7 +47,7 @@ public class AseguradoraController {
 	}
 	
 	//Crear un cliente.
-	@PutMapping("/clientes/{dni}")
+	@PutMapping("/{dni}")
 	public ResponseEntity<Cliente> creaCliente (@RequestBody Cliente c, @PathVariable String dni) {
 		Cliente creado = aseguradoraService.creaCliente(c);
 		if (creado == null) 
@@ -57,7 +57,7 @@ public class AseguradoraController {
 	}
 	
 	//Obtener un importe del cliente.
-	@GetMapping("/clientes/{dni}/importe")
+	@GetMapping("/{dni}/importe")
 	public ResponseEntity<Double> obtenerImporteCliente (@PathVariable String dni){
 		Double importe = aseguradoraService.obtenerImporteCliente(dni);
 		if (importe != null) {
@@ -68,12 +68,8 @@ public class AseguradoraController {
 	
 	
 	//Crear un seguro para un cliente.
-	@PutMapping("/clientes/{dni}/seguros/seguro")
-	public ResponseEntity<Seguro> crearSeguroCliente (@PathVariable String dni, @RequestBody NuevoSeguroDTO nuevoSeguroDTO) {
-		if (!dni.equals(nuevoSeguroDTO.getDni())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-		
+	@PutMapping("/{dni}/seguros/seguro")
+	public ResponseEntity<Seguro> crearSeguroCliente (@PathVariable String dni, @RequestBody NuevoSeguroDTO nuevoSeguroDTO) {	
 		Seguro seguro = aseguradoraService.crearSeguroCliente(dni, nuevoSeguroDTO.getTipoSeguro(),
 				nuevoSeguroDTO.getFechaInicio(), nuevoSeguroDTO.getVehiculo(), nuevoSeguroDTO.getPrecio());
 		
@@ -88,16 +84,14 @@ public class AseguradoraController {
 	}
 	
 	//Asociar un parte a un cliente.
-	@PutMapping("/clientes/{dni}/seguros/seguro/partes/parte")
+	@PutMapping("/{dni}/seguros/seguro/partes/parte")
 	public ResponseEntity<Parte> crearParteCliente (@PathVariable String dni, @RequestBody NuevoParteDTO nuevoParteDTO) {
-		if (!dni.equals(nuevoParteDTO.getDni())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-		if (nuevoParteDTO.getSeguro() == null) {
+		
+		if (nuevoParteDTO.getIdSeguro() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		
-		Parte parte = aseguradoraService.crearParteCliente(dni, nuevoParteDTO.getSeguro(), 
+		Parte parte = aseguradoraService.crearParteCliente(dni, nuevoParteDTO.getIdSeguro(), 
 				nuevoParteDTO.getImporte(), nuevoParteDTO.getFecha());
 		if (parte == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

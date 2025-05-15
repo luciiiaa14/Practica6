@@ -9,11 +9,21 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import es.unican.ss.Practica6.seralizacion.CustomLocalDateDeserializer;
 import es.unican.ss.Practica6.seralizacion.CustomLocalDateSerializer;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
+@Entity
 @SuppressWarnings({ "serial" })
 public class Parte implements Serializable {
+	@Id
 	@JsonProperty("id")
+	@GeneratedValue
 	private Integer idParte;
+	@ManyToOne
+	@JoinColumn(name = "seguro_id")
 	@JsonProperty("seguro")
 	private Seguro seguro;
 	@JsonProperty("importe")

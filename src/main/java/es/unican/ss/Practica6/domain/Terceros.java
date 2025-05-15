@@ -3,6 +3,9 @@ package es.unican.ss.Practica6.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+
+@Entity
 @SuppressWarnings({ "serial" })
 public class Terceros extends Seguro implements Serializable{
 	
@@ -12,7 +15,7 @@ public class Terceros extends Seguro implements Serializable{
 		super(PRECIO_BASE_TERCEROS);
 	}
 	
-	public Terceros(String id, LocalDate fechaInicio, Vehiculo vehiculo) {
+	public Terceros(Long id, LocalDate fechaInicio, Vehiculo vehiculo) {
 		super(id, fechaInicio, vehiculo, PRECIO_BASE_TERCEROS);
 	}
 

@@ -3,6 +3,7 @@ package es.unican.ss.Practica6.domain;
 import java.io.Serializable;
 
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,17 +13,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+@Entity
 @SuppressWarnings({ "serial" })
 public class Cliente implements Serializable {
+	@Id
 	@JsonProperty("dni")
 	private String dni;
 	@JsonProperty("nombre")
 	private String nombre;
 	@JsonProperty("email")
 	private String email;
+	@OneToMany
 	@JsonProperty("seguros")
 	private List<Seguro> seguros = new LinkedList<Seguro>();
 	@JsonInclude(value=Include.NON_EMPTY)
+	@OneToMany
 	@JsonProperty("partes")
 	private List<Parte> partes = new LinkedList<Parte>();
 

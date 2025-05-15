@@ -20,7 +20,7 @@ public interface IAseguradoraService {
 	
 	public Seguro crearSeguroCliente (String dni, String tipoSeguro, LocalDate fechaInicio, Vehiculo vehiculo, double precio);
 	
-	public Parte crearParteCliente (String dni, Seguro seguro, double importe, LocalDate fecha);
+	public Parte crearParteCliente (String dni, Long idSeguro, double importe, LocalDate fecha);
 	
 
 }

@@ -3,8 +3,10 @@ package es.unican.ss.Practica6.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
 
 
+@Entity
 @SuppressWarnings({ "serial" })
 public class TodoRiesgo extends Seguro implements Serializable{
 	
@@ -15,7 +17,7 @@ public class TodoRiesgo extends Seguro implements Serializable{
 		super(PRECIO_BASE_TODO_RIESGO);
 	}
 	
-	public TodoRiesgo(String id, LocalDate fechaInicio, Vehiculo vehiculo) {
+	public TodoRiesgo(Long id, LocalDate fechaInicio, Vehiculo vehiculo) {
 		super(id, fechaInicio, vehiculo, PRECIO_BASE_TODO_RIESGO);
 	}
 	

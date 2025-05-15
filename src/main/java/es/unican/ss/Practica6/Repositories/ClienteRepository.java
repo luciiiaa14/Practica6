@@ -6,7 +6,7 @@ import es.unican.ss.Practica6.domain.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-	public Cliente findByDNI(String dni);
+	public Cliente findByDni(String dni);
 
 }
 
